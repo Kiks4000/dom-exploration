@@ -6,9 +6,17 @@ Change the background color of the body to hot pink (#FF69B4). If that worked, t
 Using the children method and a for ... of loop, display every children elements of the second child element of your document
 (display all children elements of the <body>)*/
 
-document.title;
-
-
 document.title = "Modifying the DOM";
-document.body.style.backgroundColor = "rgb(155, 105, 180)";
 
+randomColor = () => {
+    let r = Math.floor(Math.random() * 256);
+    let g = Math.floor(Math.random() * 256);
+    let b = Math.floor(Math.random() * 256);
+        return `rgb(${r}, ${g}, ${b})`;
+}
+
+document.body.style.backgroundColor = randomColor();
+
+for (let child of document.body.children) {
+    console.log(child);
+}
