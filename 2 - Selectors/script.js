@@ -18,3 +18,21 @@ if (!image[i].classList.contains('important')) {
     image[i].style.display = 'none';
 }
 }
+
+
+const paragraph = document.querySelectorAll('p');
+
+randomColor = () => {
+    let r = Math.floor(Math.random() * 256);
+    let g = Math.floor(Math.random() * 256);
+    let b = Math.floor(Math.random() * 256);
+        return `rgb(${r}, ${g}, ${b})`;
+}
+
+for (let i = 0; i < paragraph.length; i++) {
+    if (paragraph[i].classList.contains('important')) {
+        paragraph[i].style.color = 'red';
+    } else {
+        paragraph[i].style.color = randomColor();
+    }
+}
