@@ -1,21 +1,3 @@
-/* Exercises
-Open the script.js file and edit it, so that:
-
-Everytime the user clicks on one of the action squares
-Create a new <div> with a class .displayedsquare and the corresponding 
-clicked color in the div above (.displayedsquare-wrapper)
-Create a new <li> in the log below to state when the action was done
-Add an event listener on the document <body>, listening for the keypress event. 
-(hint: have a look at this)
-When the spacebar is hit randomly change the background color of the whole page
-Log when the spacebar is used the same way you used for the generated squares.
-When the l key is pressed the log gets deleted (erases the generated <li>s). 
-Mind you: using a delete in a for loop might cause issues 
-(as the amount of items to loop over changes), so a while loop might be a good choice instead.
-When the s key is pressed the squares get deleted (erases the generated squares)
-Create a system so that when a user clicks on a generated square an alert pops-up 
-with the color of that square*/
-
 // Setting Date Log // 
 
 const _initTime = Date.now()
@@ -34,19 +16,70 @@ for (let actionSquare of actionSquares) {
     actionSquare.addEventListener('click', clickOnSquare)
 }
 
-// Creation of squares //
+// Setting consts //
 
-let greenColor = document.querySelector('.green');
-let violetColor = document.querySelector('.violet');
-let orangeColor = document.querySelector('.orange');
+const sectionContainer = document.querySelector('.displayedsquare-wrapper')
+const squares = document.querySelectorAll('.actionsquare')
+const green = document.querySelector('.green')
+const violet = document.querySelector('.violet')
+const orange = document.querySelector('.orange')
+
+const list = document.querySelector('ul')
+
+// function create square
+
+function createDisplaySquare(color) {
+    let newDiv = document.createElement('div')
+    newDiv.classList.add('displayedsquare')
+    newDiv.style.backgroundColor = color
+    sectionContainer.appendChild(newDiv)
+}
+
+green.addEventListener('click', () => {
+    createDisplaySquare('lime')
+    list.innerHTML += `<li>${getElapsedTime()} - Green</li>`
+})
+
+violet.addEventListener('click', () => {
+    createDisplaySquare('magenta')
+    list.innerHTML += `<li>${getElapsedTime()} - Violet</li>`
+})
+
+orange.addEventListener('click', () => {
+    createDisplaySquare('orange')
+    list.innerHTML += `<li>${getElapsedTime()} - Orange</li>`
+})
+
+// setting key press event
+
+randomColor = () => {
+    let r = Math.floor(Math.random() * 256);
+    let g = Math.floor(Math.random() * 256);
+    let b = Math.floor(Math.random() * 256);
+        return `rgb(${r}, ${g}, ${b})`;
+}
 
 
-greenColor.addEventListener('click', () => {
-    let newDiv = document.createElement('div');
-    newDiv.classList.add('displayedSquare');
-    newDiv.classList.add('green');
-    document.body.appendChild(newDiv);
-    let newLi = document.createElement('li');
-    newLi.innerHTML = 'Green Square Clicked';
-    document.querySelector('.log').appendChild(newLi);
-});
+
+document.addEventListener('keypress', (e) => {
+
+    const listChild = document.querySelectorAll("li");
+    const deleteSquare = document.querySelectorAll(".displayedsquare");
+
+    if (e.code === "Space") {
+        document.body.style.backgroundColor = randomColor();
+        list.innerHTML += `<li>${getElapsedTime()} - Random</li>`
+    }else if (e.code === "KeyL") {
+        listChild.forEach((log) => log.remove());
+    }else if (e.code === "KeyS") {
+        deleteSquare.forEach((square) => square.remove());
+    }
+})
+
+// 
+
+document.addEventListener('click', (e) => {
+    if (e.target.classList[0] === 'displayedsquare') {
+        alert(e.target.style.backgroundColor)
+    }
+})
